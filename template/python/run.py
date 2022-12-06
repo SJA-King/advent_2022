@@ -3,6 +3,7 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 INPUT = os.path.join(HERE, "../input.txt")
+EXAMPLE = os.path.join(HERE, "../example.txt")
 
 
 def part_1():
