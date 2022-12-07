@@ -26,14 +26,17 @@ class AFolder(AFile):
         AFile.__init__(self, a_name, 0)
         self.folders = []
         self.files = []
+        self.files_size = 0
 
     def add_folder(self, folder_name: str):
         self.folders.append(folder_name)
         if len(self.folders) != len(set(self.folders)):
+            print(self.folders)
+            print(set(self.folders))
             raise Exception(f"Duplicate Folders: {self.folders}")
 
     def add_file(self, file_name: str, file_size: int):
-        self.size += file_size
+        self.files_size += file_size
         self.files.append(AFile(file_name, file_size))
         if len(self.files) != len(set(self.files)):
             raise Exception(f"Duplicate Files: {self.files}")
@@ -67,7 +70,7 @@ class AFolder(AFile):
         for a_folder in self.get_folders():
             sum_of_folder_sizes += ALL_DIRECTORIES[a_folder].get_size()
 
-        self.size += sum_of_folder_sizes
+        self.size = sum_of_folder_sizes + self.files_size
 
     def print_size(self):
         print(self.get_size())
@@ -76,7 +79,7 @@ class AFolder(AFile):
 def part_1():
     print("Part 1")
 
-    with open(EXAMPLE, 'r') as it:
+    with open(INPUT, 'r') as it:
         data = it.readlines()
 
     directory_stack = []
@@ -127,10 +130,16 @@ def part_1():
         else:
             raise Exception(f"Unknown Line {line}!")
 
+    total_size_of_dirs_less_than_hundred_k = 0
     for folder_name, folder_obj in ALL_DIRECTORIES.items():
         print(f"Folder: {folder_name}")
         print(f"is size: {folder_obj.get_size()}")
         print(f"Files: {folder_obj.get_file_names_sizes()}")
+
+        if folder_obj.get_size() < 100000:
+            total_size_of_dirs_less_than_hundred_k += folder_obj.get_size()
+
+    print(total_size_of_dirs_less_than_hundred_k)
 
 
 def part_2():
